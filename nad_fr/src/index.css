@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* 🌤️ Light translucent base theme */
+  body {
+    @apply font-body bg-white/50 text-dark antialiased tracking-normal;
+  }
+
+  /* ✨ Headings - sharper gold for elegant contrast */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading leading-snug tracking-tight text-gold;
+  }
+
+  /* Hero titles */
+  h1 {
+    @apply text-5xl md:text-6xl font-bold text-gold drop-shadow-[0_1px_2px_rgba(245,197,24,0.3)];
+  }
+
+  /* Section titles */
+  h2 {
+    @apply text-3xl md:text-4xl font-semibold text-gold drop-shadow-[0_1px_1px_rgba(245,197,24,0.25)];
+  }
+
+  /* Subtitles */
+  h3 {
+    @apply text-xl md:text-2xl font-medium text-gray-700;
+  }
+
+  /* 📝 Paragraphs - darker gray for readability on light bg */
+  p {
+    @apply text-base text-gray-700 leading-relaxed;
+  }
+
+  /* 🪶 Buttons */
+  button, .btn {
+    @apply px-6 py-3 rounded-full text-sm font-semibold uppercase tracking-wider transition duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-gold hover:text-dark shadow-md;
+  }
+
+  .btn-outline {
+    @apply border border-gold text-gold hover:bg-gold hover:text-dark;
+  }
+
+  /* 🌾 Links */
+  a {
+    @apply text-gold hover:text-accent transition duration-300;
+  }
+
+  /* 🌫️ Section fade animation */
+  .section-fade {
+    animation: fadeIn 1.2s ease-in-out;
+  }
+}
+
+/* 🌊 Smooth fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🧱 Full height layout & transparent background */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.5); /* ✅ bg-white/50 */
+  overflow-x: hidden;
+}
+
+/* 💫 Optional enhancement: subtle gold text glow on hover */
+.text-gold-hover:hover {
+  text-shadow: 0 0 6px rgba(245, 197, 24, 0.45);
+}
