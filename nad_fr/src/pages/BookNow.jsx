@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import useEmailJS from "../hooks/useEmailJS";
 
 // ✅ Room Types for selection
 const roomOptions = ["Deluxe Villa", "Family Suite", "Luxury Cottage", "Premium Villa"];
@@ -14,23 +15,45 @@ export default function BookNow() {
     guests: 1,
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const { sendEmail, status } = useEmailJS(
+    "service_hvjqhns",    // Updated EmailJS service ID
+    "template_onn0579",   // Updated EmailJS template ID
+    "rVUZLZTCxCsLz3vFA"   // Public key remains the same
+  );
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(
-      `Booking Confirmed!\nName: ${formData.name}\nEmail: ${formData.email}\nRoom: ${formData.room}\nCheck-in: ${formData.checkIn}\nCheck-out: ${formData.checkOut}\nGuests: ${formData.guests}`
-    );
+
+    try {
+      // Send only the fields your EmailJS template expects
+      await sendEmail({
+        name: formData.name,
+        email: formData.email,
+        checkIn: formData.checkIn,
+        checkOut: formData.checkOut,
+        room: formData.room,
+        guests: formData.guests,
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        checkIn: "",
+        checkOut: "",
+        room: roomOptions[0],
+        guests: 1,
+      });
+    } catch (err) {
+      console.error("Booking email failed:", err);
+    }
   };
 
   return (
     <section className="min-h-screen h-screen bg-[url('/src/assets/bg.jpg')] bg-cover bg-center relative flex items-center justify-center">
-      {/* Overlay */}
       <div className="absolute inset-0 bg-white/60"></div>
 
-      {/* Full-screen Form */}
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 50 }}
@@ -49,6 +72,11 @@ export default function BookNow() {
           <p className="text-primary/70">
             Complete the form below to reserve your villa or suite with Orion Neststay.
           </p>
+          {status.message && (
+            <p className={`mt-2 ${status.success ? "text-green-600" : "text-red-600"}`}>
+              {status.message}
+            </p>
+          )}
         </motion.div>
 
         {/* Full Name */}
@@ -120,8 +148,8 @@ export default function BookNow() {
           min="1"
           value={formData.guests}
           onChange={handleChange}
-          className="p-5 rounded-lg border border-primary bg-white/80 text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 w-full"
           placeholder="Number of Guests"
+          className="p-5 rounded-lg border border-primary bg-white/80 text-primary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 w-full"
         />
 
         {/* Submit Button */}
@@ -131,7 +159,7 @@ export default function BookNow() {
           type="submit"
           className="md:col-span-2 bg-primary text-white font-semibold py-5 rounded-full hover:bg-white hover:text-primary border border-primary transition-all duration-300 w-full"
         >
-          Confirm Booking
+          {status.loading ? "Sending..." : "Confirm Booking"}
         </motion.button>
       </motion.form>
     </section>
