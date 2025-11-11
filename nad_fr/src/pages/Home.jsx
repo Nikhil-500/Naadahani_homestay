@@ -11,6 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import HeroSlider from "../components/HeroSlider";
 import reviews from "../data/reviews";
+import din from "../assets/din.jpg";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,8 +27,8 @@ export default function Home() {
   return (
     <div className="bg-white text-dark font-body flex flex-col min-h-screen">
       <main className="flex-grow overflow-hidden">
-        <div className="pt-20">
-          {/* 🏞️ Hero Slider Section */}
+        <div className="pt-0">
+          {/* 🏞️ Hero Slider Section (flush under navbar) */}
           <section className="relative">
             <HeroSlider />
           </section>
@@ -126,7 +127,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 🍽️ Culinary Section */}
+          {/* 🍽️ Culinary Section (uses imported din.jpg) */}
           <section className="py-24 bg-white/60 text-center">
             <div className="max-w-5xl mx-auto px-6">
               <Utensils size={50} className="mx-auto text-[#556B2F] mb-6" />
@@ -139,7 +140,7 @@ export default function Home() {
                 the plantation stream — every meal is an experience.
               </p>
               <motion.img
-                src="/assets/dining.jpg"
+                src={din}
                 alt="Dining Experience"
                 className="rounded-3xl shadow-lg w-full max-w-4xl mx-auto hover:shadow-2xl transition-all duration-300"
                 initial={{ opacity: 0, y: 50 }}

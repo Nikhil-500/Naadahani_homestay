@@ -47,7 +47,8 @@ export default function HeroSlider() {
   ];
 
   return (
-    <section className="relative w-full mt-16 font-[Poppins]">
+    // removed top margin so slider sits flush under the navbar
+    <section className="relative w-full mt-0 font-[Poppins]">
       <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
@@ -56,6 +57,7 @@ export default function HeroSlider() {
         speed={1200}
         loop
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        // keep full-viewport height for impactful hero
         className="h-[85vh] md:h-[95vh]"
       >
         {slides.map((slide, index) => {
@@ -141,7 +143,8 @@ export default function HeroSlider() {
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
           transition={{ duration: 4.8, ease: "easeInOut" }}
-          className="h-full bg-green-600"
+          className="h-full"
+          style={{ background: "#556B2F" }}
         />
       </div>
     </section>
